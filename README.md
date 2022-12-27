@@ -25,26 +25,28 @@ In this tutorial, we observe various network traffic to and from a Windows 10 an
 
 <h2>High-Level Steps</h2>
 
-- Step 1
-- Step 2
+- Step 1: On the Windows 10 VM, begin packet capturing with Wireshark and Ping the Ubuntu machine.
+- Step 2: Block inbound ICMP protocol traffic on the Ubuntu VM with an Azure inbound security rule in the Network Security Group Firewall.
 - Step 3
 - Step 4
 
 <h2>Actions and Observations</h2>
 
+Step 1
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/NJPakcS.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+On the Windows 10 VM, open Wireshark and begin a packet capture by selecting the blue wireshark icon on the top left. Filter the traffic captured by the "icmp" protocol. Open command prompt and ping the Ubuntu VM's IP with the command "ping 10.0.0.5". Observe the 8 packets captured. Ping uses the ICMP protocol hence why we filtered by "icmp". Ping is commonly used to test network connectivity between devices on a network. We sent 4 ICMP Echo requests from the Windows VM to the Ubunto VM and received 4 ICMP Echo replys confirming connectivity. 
 </p>
 <br />
 
+Step 2
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/g2636hD.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+In the Windows VM command prompt, run the command "ping 10.0.0.5 -t". Adding the -t option makes the ping take action an infinte amount of times. In Azure, navigate to the Ubuntu VM and expand the networking option. Select "add inbound port rule" and create a rule for the firewall denying all incoming ICMP protocol traffic. Back to the Windows VM, observe the ping commands beginning to fail. They are failing because the Windows VM is not receiving an ICMP echo reply from the Ubuntu VM. Ubuntu is not replying because the firewall rule we added prevents Ubuntu from event receiving the Windows ICMP echo request. This makes ping a useful troubleshooting tool. 
 </p>
 <br />
 
